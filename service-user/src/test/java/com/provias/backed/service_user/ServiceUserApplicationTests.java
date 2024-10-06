@@ -1,10 +1,10 @@
-package com.provias.backed.rest;
+package com.provias.backed.service_user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestApplicationTests {
+class ServiceUserApplicationTests {
 
 	@Test
 	void contextLoads() {
