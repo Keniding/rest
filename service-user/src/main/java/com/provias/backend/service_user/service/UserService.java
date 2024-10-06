@@ -7,6 +7,7 @@ import com.provias.backend.service_user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -35,6 +36,7 @@ public class UserService {
 
     public Mono<User> saveUser(User user) {
         validateUser(user);
+        user.setPassword(encryptPassword(user.getPassword()));
         return rolRepository.findById(user.getRolId())
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Rol not found with id: " + user.getRolId())))
                 .then(userRepository.save(user));
@@ -90,6 +92,7 @@ public class UserService {
     }
 
     private String encryptPassword(String password) {
-        return password;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
