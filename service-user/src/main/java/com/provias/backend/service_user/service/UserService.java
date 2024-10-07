@@ -6,8 +6,7 @@ import com.provias.backend.service_user.repository.RolRepository;
 import com.provias.backend.service_user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
-import org.springframework.dao.DataAccessException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RolRepository rolRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Flux<User> getAllUsers() {
         return userRepository.findAll();
@@ -37,8 +37,8 @@ public class UserService {
     public Mono<User> saveUser(User user) {
         validateUser(user);
         user.setPassword(encryptPassword(user.getPassword()));
-        return rolRepository.findById(user.getRolId())
-                .switchIfEmpty(Mono.error(new IllegalArgumentException("Rol not found with id: " + user.getRolId())))
+        return rolRepository.findById(user.getRol().getId())
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Rol not found with id: " + user.getRol().getId())))
                 .then(userRepository.save(user));
     }
 
@@ -48,9 +48,11 @@ public class UserService {
                     validateUser(user);
                     existingUser.setUsername(user.getUsername());
                     existingUser.setPassword(encryptPassword(user.getPassword()));
-                    existingUser.setRolId(user.getRolId());
-                    return rolRepository.findById(user.getRolId())
-                            .switchIfEmpty(Mono.error(new IllegalArgumentException("Rol not found with id: " + user.getRolId())))
+
+                    existingUser.setRol(user.getRol());
+
+                    return rolRepository.findById(user.getRol().getId())
+                            .switchIfEmpty(Mono.error(new IllegalArgumentException("Rol not found with id: " + user.getRol().getId())))
                             .then(userRepository.save(existingUser));
                 });
     }
@@ -92,7 +94,7 @@ public class UserService {
     }
 
     private String encryptPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
 }

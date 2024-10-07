@@ -45,7 +45,7 @@ public class AuthController {
 
     @PostMapping("/api/auth/validate")
     public Mono<ResponseEntity<Void>> validateToken(@RequestBody String token) {
-        LOGGER.log(Level.INFO, "Validating token");
+        LOGGER.log(Level.INFO, "Validating token "+ token);
 
         try {
             boolean isValid = TokenUtils.validateToken(token);

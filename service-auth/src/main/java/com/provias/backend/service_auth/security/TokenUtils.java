@@ -5,9 +5,12 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
@@ -17,12 +20,25 @@ import java.util.Map;
 @Component
 public class TokenUtils {
 
-    private static final Long ACCESS_TOKEN_VALIDITY_SECONDS = 2_592_000L;
-    private static final Key SIGNINGKEY = generateRandomKey();
+    private static final Long ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60L; // 1 hora
 
+    private static Key SIGNINGKEY;
+
+    @Value("${security.jwt.secret-key}")
+    private String secretKey; // Inyectamos la clave secreta desde la configuración
+
+    @PostConstruct
+    public void init() {
+        // Convertimos la clave secreta en un objeto Key
+        SIGNINGKEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /*
     private static Key generateRandomKey() {
         return Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
+
+     */
 
     public static String createAccessToken(UserDetailsImp user) {
         long expirationTime = System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS * 1_000;

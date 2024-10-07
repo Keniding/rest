@@ -2,19 +2,25 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: service-users
+        - id: service-auth
           uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+        - id: service-users
+          uri: http://localhost:8082
           predicates:
             - Path=/api/users/**
           filters:
             - name: AuthServiceFilter
         - id: service-roles
-          uri: http://localhost:8082
+          uri: http://localhost:8083
           predicates:
             - Path=/api/roles/**
           filters:
             - name: AuthServiceFilter
-        - id: service-auth
-          uri: http://localhost:8083
+        - id: service-project
+          uri: http://localhost:8084
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/projects/**
+          filters:
+            - name: AuthServiceFilter
