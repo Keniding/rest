@@ -10,4 +10,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Ubicacion {
     private double latitud;
     private double longitud;
+    private String direccion;
 }
