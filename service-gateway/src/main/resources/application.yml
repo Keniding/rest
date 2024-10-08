@@ -24,3 +24,21 @@ spring:
             - Path=/api/projects/**
           filters:
             - name: AuthServiceFilter
+        - id: service-type
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/types/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-category
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/categories/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-supplier
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/suppliers/**
+          filters:
+            - name: AuthServiceFilter

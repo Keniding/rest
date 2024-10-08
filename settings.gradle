@@ -1,3 +1,10 @@
 rootProject.name = 'rest'
 
-include 'service-user', 'service-rol', 'service-gateway', 'service-auth', 'service-project'
+include 'service-user',
+        'service-rol',
+        'service-gateway',
+        'service-auth',
+        'service-project',
+        'service-type',
+        'service-category',
+        'service-supplier'
