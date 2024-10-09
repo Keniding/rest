@@ -48,3 +48,21 @@ spring:
             - Path=/api/resources/**
           filters:
             - name: AuthServiceFilter
+        - id: service-location
+          uri: http://localhost:8089
+          predicates:
+            - Path=/api/locations/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-post
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/posts/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-staff
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/staff/**
+          filters:
+            - name: AuthServiceFilter

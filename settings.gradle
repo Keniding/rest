@@ -11,4 +11,6 @@ include(
         'service-supplier',
         'service-resource',
         'service-location',
+        'service-staff',
+        'service-post',
 )

@@ -1,4 +1,4 @@
-package com.provias.backend.service_project.model;
+package com.provias.backend.service_staff.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

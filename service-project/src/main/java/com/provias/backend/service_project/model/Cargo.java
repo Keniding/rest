@@ -6,14 +6,14 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("personal")
+@Document("cargos")
 @Data
 @NoArgsConstructor
-public class Personal {
+public class Cargo { // Por ejemplo: "Administrador", "Ingeniero", "Supervisor"
     @Id
     private ObjectId id;
     private String nombre;
-    private Cargo cargo;
-    private String telefono;
-    private String correo;
+    private String descripcion;
+    private Rango rango;
+    private String departamento; // Por ejemplo: "Ingeniería", "Administración", "Supervisión"
 }
