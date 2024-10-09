@@ -66,3 +66,21 @@ spring:
             - Path=/api/staff/**
           filters:
             - name: AuthServiceFilter
+        - id: service-activity
+          uri: http://localhost:8092
+          predicates:
+            - Path=/api/activities/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-milestone
+          uri: http://localhost:8093
+          predicates:
+            - Path=/api/milestones/**
+          filters:
+            - name: AuthServiceFilter
+        - id: service-risk
+          uri: http://localhost:8094
+          predicates:
+            - Path=/api/risks/**
+          filters:
+            - name: AuthServiceFilter

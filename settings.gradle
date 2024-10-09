@@ -13,4 +13,7 @@ include(
         'service-location',
         'service-staff',
         'service-post',
+        'service-activity',
+        'service-milestone',
+        'service-risk'
 )
