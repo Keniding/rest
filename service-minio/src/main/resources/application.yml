@@ -1,0 +1,21 @@
+server:
+  port: 8095
+
+spring:
+  application:
+    name: minio
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: keniding
+  secretKey: keniding
+  bucket: mtc
+
+logging:
+  level:
+    com.provias.backend.service_minio: DEBUG
+    io.minio: INFO

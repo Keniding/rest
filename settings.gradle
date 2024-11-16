@@ -15,5 +15,6 @@ include(
         'service-post',
         'service-activity',
         'service-milestone',
-        'service-risk'
+        'service-risk',
+        'service-minio'
 )
