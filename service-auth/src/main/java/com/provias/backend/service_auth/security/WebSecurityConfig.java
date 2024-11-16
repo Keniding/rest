@@ -39,27 +39,27 @@ public class WebSecurityConfig {
                 )
                 .addFilterAt(jwtAuthorizationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .addFilterBefore(new LoggingFilter(), SecurityWebFiltersOrder.FIRST)
-                .addFilterAt(corsWebFilter(), SecurityWebFiltersOrder.CORS)
+//                .addFilterAt(corsWebFilter(), SecurityWebFiltersOrder.CORS)
                 .build();
     }
 
-    @Bean
-    public CorsWebFilter corsWebFilter() {
-        return getCorsWebFilter();
-    }
-
-    public static CorsWebFilter getCorsWebFilter() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
-        corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfig.setAllowedHeaders(List.of("*"));
-        corsConfig.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-        return new CorsWebFilter(source);
-    }
+//    @Bean
+//    public CorsWebFilter corsWebFilter() {
+//        return getCorsWebFilter();
+//    }
+//
+//    public static CorsWebFilter getCorsWebFilter() {
+//        CorsConfiguration corsConfig = new CorsConfiguration();
+//        corsConfig.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+//        corsConfig.setMaxAge(3600L);
+//        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        corsConfig.setAllowedHeaders(List.of("*"));
+//        corsConfig.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfig);
+//        return new CorsWebFilter(source);
+//    }
 
 
     @Bean

@@ -2,12 +2,12 @@ package com.provias.backend.service_risk.controller;
 
 import com.provias.backend.service_risk.model.Riesgo;
 import com.provias.backend.service_risk.service.RiesgoService;
+import com.provias.backend.service_risk.dto.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -18,34 +18,50 @@ public class RiesgoController {
     private final RiesgoService riesgoService;
 
     @GetMapping
-    public Flux<Riesgo> getAllRiesgos() {
-        return riesgoService.getAllRiesgos();
+    public Mono<ResponseEntity<ApiResponse<Iterable<Riesgo>>>> getAllRiesgos() {
+        return riesgoService.getAllRiesgos()
+                .collectList()
+                .map(riesgos -> ResponseEntity.ok(
+                        ApiResponse.success(riesgos, "Riesgos recuperados exitosamente")
+                ));
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Riesgo>> getRiesgoById(@PathVariable ObjectId id) {
+    public Mono<ResponseEntity<ApiResponse<Riesgo>>> getRiesgoById(@PathVariable ObjectId id) {
         return riesgoService.getRiesgoById(id)
-                .map(riesgo -> new ResponseEntity<>(riesgo, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(riesgo -> ResponseEntity.ok(
+                        ApiResponse.success(riesgo, "Riesgo encontrado exitosamente")
+                ))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.error("Riesgo no encontrado")));
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Riesgo>> createRiesgo(@RequestBody Riesgo riesgo) {
+    public Mono<ResponseEntity<ApiResponse<Riesgo>>> createRiesgo(@RequestBody Riesgo riesgo) {
         return riesgoService.saveRiesgo(riesgo)
-                .map(savedRiesgo -> new ResponseEntity<>(savedRiesgo, HttpStatus.CREATED));
+                .map(savedRiesgo -> ResponseEntity.status(HttpStatus.CREATED)
+                        .body(ApiResponse.success(savedRiesgo, "Riesgo creado exitosamente")));
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Riesgo>> updateRiesgo(@PathVariable ObjectId id, @RequestBody Riesgo riesgo) {
+    public Mono<ResponseEntity<ApiResponse<Riesgo>>> updateRiesgo(
+            @PathVariable ObjectId id,
+            @RequestBody Riesgo riesgo) {
         return riesgoService.updateRiesgo(id, riesgo)
-                .map(updatedRiesgo -> new ResponseEntity<>(updatedRiesgo, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(updatedRiesgo -> ResponseEntity.ok(
+                        ApiResponse.success(updatedRiesgo, "Riesgo actualizado exitosamente")
+                ))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.error("Riesgo no encontrado")));
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteRiesgo(@PathVariable ObjectId id) {
+    public Mono<ResponseEntity<ApiResponse<Void>>> deleteRiesgo(@PathVariable ObjectId id) {
         return riesgoService.deleteRiesgo(id)
-                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .then(Mono.just(ResponseEntity.ok(
+                        ApiResponse.<Void>success(null, "Riesgo eliminado exitosamente")
+                )))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.<Void>error("Riesgo no encontrado")));
     }
 }
