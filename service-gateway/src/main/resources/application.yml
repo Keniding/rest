@@ -84,3 +84,47 @@ spring:
             - Path=/api/risks/**
           filters:
             - name: AuthServiceFilter
+
+# Configuración OpenAPI/Swagger
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+    version: openapi_3_0
+
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+    displayRequestDuration: true
+    docExpansion: none
+    defaultModelsExpandDepth: 1
+    defaultModelExpandDepth: 1
+    syntaxHighlight:
+      activated: true
+    supportedSubmitMethods:
+      - get
+      - post
+      - put
+      - delete
+
+  show-actuator: true
+  writer-with-default-pretty-printer: true
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+
+  packages-to-scan: com.provias.backend.service_gateway
+  paths-to-match: /api/**
+
+  webjars:
+    prefix: /webjars
+  use-management-port: false
+  cache:
+    disabled: true
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+    org.springdoc: DEBUG
+    io.swagger.models.parameters.AbstractSerializableParameter: ERROR
