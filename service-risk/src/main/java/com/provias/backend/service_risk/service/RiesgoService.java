@@ -42,6 +42,8 @@ public class RiesgoService {
                     existingRiesgo.setDescripcion(riesgo.getDescripcion());
                     existingRiesgo.setNivel(riesgo.getNivel());
                     existingRiesgo.setPlanMitigacion(riesgo.getPlanMitigacion());
+                    existingRiesgo.setProbabilidad(riesgo.getProbabilidad());
+                    existingRiesgo.setImpacto(riesgo.getImpacto());
                     return riesgoRepository.save(existingRiesgo);
                 });
     }

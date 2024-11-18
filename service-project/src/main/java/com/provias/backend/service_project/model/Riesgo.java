@@ -16,4 +16,6 @@ public class Riesgo {
     private String descripcion;
     private Nivel nivel; // Nivel de riesgo (ej. bajo, medio, alto)
     private String planMitigacion; // Plan de mitigación para el riesgo url
+    private Integer probabilidad;
+    private Integer impacto;
 }
